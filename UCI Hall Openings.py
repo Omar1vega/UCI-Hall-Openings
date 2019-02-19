@@ -6,20 +6,18 @@ import requests
 
 
 def getClasses():
-    ## Downloads Entire Web Schedule of Classes Database, by course code range (1000-99999), saves to a file
-    file = open('WebSocFile.txt', 'a')
-    for i in range(1, 100):
-        rangeStart = i * 1000
-        rangeStop = rangeStart + 999
-        ranges = str(rangeStart) + '-' + str(rangeStop)
+    # Downloads Entire Web Schedule of Classes Database, by course code range (1000-99999), saves to a file
+    with open('WebSocFile.txt', 'a') as webSocFile:
+        for i in range(1, 100):
+            rangeStart = i * 1000
+            rangeStop = rangeStart + 999
+            ranges = str(rangeStart) + '-' + str(rangeStop)
 
         url = 'https://www.reg.uci.edu/perl/WebSoc/?YearTerm=2016-14&ShowComments=on&ShowFinals=on&Breadth=ANY&Dept=+ALL&CourseNum=&Division=ANY&CourseCodes=' + ranges + '&InstrName=&CourseTitle=&ClassType=ALL&Units=&Days=&StartTime=&EndTime=&MaxCap=&FullCourses=ANY&FontSize=100&CancelledCourses=Exclude&Bldg=&Room=&Submit=Display+Text+Results'
 
-        r = requests.get(url)
-        classes = r.text
-        file.write(classes)
-        print("Done with course codes " + ranges)
-    file.close()
+            classes = requests.get(url).text
+            webSocFile.write(classes)
+            print("Done with course codes " + ranges)
 
 
 def main():
@@ -58,11 +56,11 @@ def main():
         timesOpenList = sorted(list(set(timesOpenList)))
         output = open('TimesAvailablefor ' + searchTerm + '.txt', 'a')
 
-        for item in timesOpenList:
-            print(item)
-            output.write(item)
-            output.write("\n")
-        output.close()
+        with open('TimesAvailableFor ' + searchTerm + '.txt', 'a') as output:
+            for item in timesOpenList:
+                print(item)
+                output.write(item)
+                output.write("\n")
 
 
 main()
