@@ -1,3 +1,5 @@
+import os
+
 import requests
 
 """ Written By Omar Vega
@@ -7,6 +9,7 @@ import requests
 
 def get_classes():
     # Downloads Entire Web Schedule of Classes Database, by course code range (1000-99999), saves to a file
+    if os.path.exists('WebSocFile.txt'): os.remove('WebSocFile.txt')
     with open('WebSocFile.txt', 'a') as webSocFile:
         for i in range(1, 100):
             range_start = i * 1000
